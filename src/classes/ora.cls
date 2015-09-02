@@ -61,10 +61,10 @@ global class ora {
     
     //below are internal utility functions, plus methods not yet implemented.
     
-	public class picklistValues {
+	/*public class picklistValues {
 		String label {get; set;}
 		String value {get; set;}
-	}
+	}*/
 
 	/*public class Select2Data {
 		String id               {get; set;}
@@ -280,7 +280,7 @@ global class ora {
 		return JSON.serialize(retObj);
 	}*/
 
-    /*
+    
 	@remoteAction  @AuraEnabled
 	public static String create(String objtype, String fields) {
 		Schema.SObjectType targetType = Schema.getGlobalDescribe().get(objtype);
@@ -318,7 +318,7 @@ global class ora {
 		result.put('success', true);
 
 		return JSON.serialize(result);
-	}*/
+	}
 
     /*
 	@remoteAction  @AuraEnabled
