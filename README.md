@@ -3,6 +3,8 @@ Lightning Component for driving a record list from a soql query
 
 Watch the [app/code walkthrough video](https://www.youtube.com/watch?v=x827I7UUQ3I)
 
+install as [unmanaged package](https://login.salesforce.com/packaging/installPackage.apexp?p0=04t61000000Duc8)
+
 ###Contents:
 oraComponent : an extensible component consisting of helpers that connect to a generic apex class (ora) for query/describe (more methods to come soon)
 
