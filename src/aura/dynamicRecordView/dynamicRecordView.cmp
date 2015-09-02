@@ -1,0 +1,6 @@
+<aura:component implements="flexipage:availableForAllPageTypes">
+    <aura:handler event="c:recordSelectedEvent" action="{!c.handleSelected}"/>
+    
+    {!v.body}
+    
+</aura:component>

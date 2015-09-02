@@ -1,0 +1,23 @@
+<aura:component >
+    <aura:attribute name="subject" type="sobject" required="true" description="pass in an sobject that you want to show fields for"/>
+    <aura:attribute name="objectDescribe" type="object" required="false" description="results from apex describe call (JSON)"/>
+    <aura:attribute name="selectBehavior" type="string" required="true" default="navigate"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.parallelCheck}"/>
+    <aura:handler name="change" value="{!v.objectDescribe}" action="{!c.parallelCheck}"/>     
+    <ltng:require scripts="/resource/lodoash" afterScriptsLoaded="{!c.parallelCheck}"/>
+    
+    <aura:registerEvent name="recordSelectedEvent" type="c:recordSelectedEvent"/>
+
+    <li class="slds-list__item">
+        <a href="" onclick="{!c.recordClick}">
+            <h1>{!v.kvps[0].key} : {!v.kvps[0].value}</h1>
+            <ul class="slds-list--horizontal slds-has-dividers slds-text-body--small">
+                <aura:iteration items="{!v.kvps}" var="kvp" start="1">
+                    <li class="slds-truncate slds-list__item">{!kvp.key} : {!kvp.value}</li>
+                </aura:iteration>
+            </ul>
+            
+        </a>
+    </li>
+</aura:component>

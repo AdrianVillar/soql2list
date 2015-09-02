@@ -1,0 +1,7 @@
+<design:component>
+    <design:attribute name="soql" label="SOQL" description="Add a SOQL statement for the records you want to display" />
+    <design:attribute name="selectBehavior" label="Behavior" description="What should happen when the user selects a record from the list?" datasource="nothing, navigate to feed, navigate to detail, navigate to related, record as event"/>
+    <design:attribute name="objectType" label="Object Type" description="What object are we querying (ex: User)" />
+
+    
+</design:component>
