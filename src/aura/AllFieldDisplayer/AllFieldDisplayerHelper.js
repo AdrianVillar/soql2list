@@ -1,28 +1,40 @@
 ({
-	buildKvps : function(component) {
-		var subject = component.get("v.subject"),
-			describe = component.get("v.objectDescribe"),        	
-            kvps = [];
-            _.forEach(subject, function(value, key){
-                if (key != 'attributes' && key != 'Id'){
-                    $A.log('this is ok -- ' + key + ":"  + value);
-                    $A.log(describe);
-                    if (!$A.util.isUndefinedOrNull(describe)){
-                        kvps.push({"key" : key, "value" : value });                                   
-                    } else {
-                        
-                        var friendlyKey = _.pluck(_.filter(describe, {"name" : key}), 'label');
-                        var fieldType = _.pluck(_.filter(describe, {"name" : key}), 'type');                   
-                        //var formattedValue;  
-                        //if (fieldType == 'datetime') {formattedValue = }
-                        //if (fieldType == 'date') {formattedValue = }
-                        
-                        kvps.push({"key" : friendlyKey, "value" : value });               
-                    }
-                }
-            });	
+    buildKvps : function(component) {
+        //console.log('building KVPs')
+        var subject = component.get("v.subject");
+        var	describe = component.get("v.objectDescribe");        	
+        var kvps = [];
+        var allKvps = [];
         
-            component.set("v.kvps" , kvps);
-            //TODO: handling for special fields types (date/datetime, geolocation)
-	}
+        //new version, driven from the describe
+        _.forEach(describe, function(value, key){
+            if (key != 'attributes' && key != 'Id'){
+                allKvps.push({"key" : value.label, "value" : subject[key]});
+            } 
+        });
+        //console.log(allKvps)
+        component.set("v.allKvps" , allKvps);
+
+        //old version , driven from the record
+        _.forEach(subject, function(value, key){
+            if (key != 'attributes' && key != 'Id'){
+                //console.log('this is ok -- ' + key + ":"  + value);                
+                //var friendlyKey = _.pluck(_.filter(describe, {"name" : key}), 'label');
+                var friendlyKey = describe[key].label;
+                if (describe[key].type == 'date'){
+                    console.log('found a date');
+                }
+                if (describe[key].type == 'datetime'){
+                    console.log('found a datetime');
+                }
+                if (describe[key].type == 'geolocation'){
+                    console.log('found a geolocation');
+                }
+                kvps.push({"key" : friendlyKey, "value" : value });               
+            }
+        });
+        
+        //console.log(kvps);
+        component.set("v.kvps" , kvps);
+    }
 })

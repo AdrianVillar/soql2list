@@ -1,19 +1,67 @@
-<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" extends="c:oraComponent">
-    <aura:attribute name="soql" type="string" required="true" default="Select Name from User"/>
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes" extends="c:oraComponent">
+    <!--stuff users can set-->
+    <aura:attribute name="soql" type="string" required="true" default="Select Name, Country from User"/>
+    <aura:attribute name="filters" type="string" required="false" default="Country"/>
     <aura:attribute name="objectType" type="string" required="true" default="User"/>
-
+    <aura:attribute name="format" type="string" required="true" default="table"/>    
     <aura:attribute name="selectBehavior" type="string" required="true" default="navigate to detail"/>
-
     
+    <!--private attributes-->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/> 
-    <ltng:require styles="/resource/SLDS080/assets/styles/salesforce-lightning-design-system.min.css"/>
+    <aura:handler name="change" value="{!v.results}" action="{!c.buildFilters}"/>
+    <aura:handler name="change" value="{!v.describe}" action="{!c.buildFilters}"/>
+    
+    <ltng:require styles="/resource/SLDS0121/assets/styles/salesforce-lightning-design-system.min.css"/>
+    <ltng:require scripts="/resource/lodoash" afterScriptsLoaded="{!c.buildFilters}"/>
     
     <div class="slds">
-        <aura:iteration items="{!v.results}" var="record">
-            <ul class="slds-list--vertical slds-has-dividers">
-	            <c:AllFieldDisplayer subject="{!record}" objectDescribe="{!v.describe}" selectBehavior="{!v.selectBehavior}" />            
-            </ul>
-        </aura:iteration>
+        
+        <!--optional filters-->        
+        <aura:renderIf isTrue="{!v.filterObjects != null}">
+            <div class="slds-grid">
+                <aura:iteration items="{!v.filterObjects}" var="filter">
+                    <div class="slds-col slds-p-around--small">
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label" for="selectSample1">{!filter.label}</label>
+                            <div class="slds-form-element__control">
+                                <div class="slds-select_container">
+                                    <select id="{!filter.field + 'Filter'}" class="slds-select" onchange="{!c.filterChange}">
+                                        <aura:iteration items="{!filter.options}" var="option">
+                                            <option>{!option}</option>
+                                        </aura:iteration>                                
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </aura:iteration> 
+            </div>
+            
+        </aura:renderIf>
+        
+        <!--optional table version: pass in soql and the describe info-->        
+        <aura:renderIf isTrue="{!v.format=='table'}">
+            <table class="slds-table slds-table--bordered">
+                <c:AllFieldDisplayer subject="{!v.results[0]}" objectDescribe="{!v.masterDescribe}" selectBehavior="{!v.selectBehavior}" format="tableHeader"/>                            
+                <tbody>
+                    <aura:iteration items="{!v.filteredResults}" var="record">
+                        <tr class="slds-hint-parent" >
+                            <c:AllFieldDisplayer subject="{!record}" objectDescribe="{!v.masterDescribe}" selectBehavior="{!v.selectBehavior}" format="tableRow"/>                                                            
+                        </tr>
+                    </aura:iteration>
+                </tbody>
+            </table>
+        </aura:renderIf>
+        
+        <!--standard list version-->
+        <aura:renderIf isTrue="{!v.format=='list'}">
+            <aura:iteration items="{!v.filteredResults}" var="record">
+                <ul class="slds-list--vertical slds-has-dividers">
+                    <c:AllFieldDisplayer subject="{!record}" objectDescribe="{!v.masterDescribe}" selectBehavior="{!v.selectBehavior}" />            
+                </ul>
+            </aura:iteration>
+        </aura:renderIf>
+        
     </div>
     
 </aura:component>

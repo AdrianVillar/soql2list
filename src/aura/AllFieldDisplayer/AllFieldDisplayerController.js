@@ -22,6 +22,7 @@
            "recordId": component.get("v.subject.Id"),
         };        
         if (component.get("v.selectBehavior")=='navigate to detail'){
+            console.log('nav to sobject!')
             params.slideDevName = "detail";
         } else if (component.get("v.selectBehavior")=='navigate to feed'){
             params.slideDevName = "chatter";
@@ -40,9 +41,9 @@
         	|| $A.util.isUndefinedOrNull(component.get("v.objectDescribe"))
             || typeof _ === 'undefined'
         ){
-            console.log('not ready');
+            //console.log('not ready');
         } else {
-            console.log('all values present');
+            //console.log('all values present');
             helper.buildKvps(component);
         }
     },

@@ -2,6 +2,7 @@
     <design:attribute name="soql" label="SOQL" description="Add a SOQL statement for the records you want to display" />
     <design:attribute name="selectBehavior" label="Behavior" description="What should happen when the user selects a record from the list?" datasource="nothing, navigate to feed, navigate to detail, navigate to related, record as event"/>
     <design:attribute name="objectType" label="Object Type" description="What object are we querying (ex: User)" />
+    <design:attribute name="format" label="Format" description="How would you like to see your data?" datasource="list, table"/>
+    <design:attribute name="filters" label="Filters" description="comma separated list of field API names (something__c) that become dropdown filters above the component.  Leave blank to have no filters" />
 
-    
 </design:component>
